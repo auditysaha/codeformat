@@ -1,0 +1,277 @@
+#include <stdio.h>
+
+struct Node
+{
+    int value;
+    struct Node * left, * right;
+};
+
+
+void explore (struct Node * root)
+{
+    if (root == NULL) { return; }
+    else
+    {  
+        printf (" %d ", root->value);
+        explore (root->left);
+        explore (root->right);
+    }
+}
+
+
+int main() {
+    // Write C code here
+   
+    int i=0, last = 0, current = 0;
+    struct Node *root, *pleft, *pright, *list[2000];
+    int n = 0;
+   
+    //creating the root.
+    printf ("root value ? ");
+    scanf ("%d", &n);
+    root = (struct Node *) malloc (sizeof (struct Node));
+    root->value = n;
+    root->left = NULL;
+    root->right = NULL;
+    list[0] = root;
+    current = 0;
+    last = 0;
+   
+    while (1)
+    {
+        if (current > last) { break; }
+       
+        if (list[current]->value == -99) { current++; continue; }
+       
+        pleft = (struct Node *) malloc (sizeof (struct Node));
+        pright = (struct Node *) malloc (sizeof (struct Node));
+       
+        printf ("left of %d? ", list[current]->value);
+        scanf ("%d", &n);
+        pleft->value = n;  pleft->left = NULL; pleft->right = NULL;
+       
+        printf ("right of %d? ", list[current]->value);
+        scanf ("%d", &n);
+        pright->value = n;   pright->left = NULL; pright->right = NULL;
+       
+        if (pleft->value == -99) { list[current]->left = NULL; }
+        else { list[current]->left = pleft; }
+        if (pright->value == -99) { list[current]->right = NULL; }
+        else { list[current]->right = pright; }
+       
+        list[last+1] = pleft;
+        list[last+2] = pright;
+        last = last + 2;
+        current++;
+    }
+   
+    explore (root);
+   
+    return 0;
+}
+
+Add class comment…
+
+
+Announcement: 'Solution to Lab Problem 1 (CSE 1200) //…'
+Dr. Manishankar Mondal
+Created 14 Aug 202314 Aug 2023
+Solution to Lab Problem 1 (CSE 1200)
+
+// Online C compiler to run C program online
+#include <stdio.h>
+
+struct Node
+{
+    int value;
+    struct Node * next;
+};
+
+
+struct Node * insert (struct Node * head, struct Node * p)
+{
+    struct Node * newhead = head;
+   
+    if (p->value >= 0 && p->value % 2 == 0)
+    {
+        while (head != NULL)
+        {
+            if (head ->next == NULL) { head->next = p; break; }
+            head = head->next;
+        }
+    }
+    if (p->value >=0 && p->value % 2 == 1)
+    {
+        p->next = head;
+        newhead = p;
+    }
+    if (p->value < 0)
+    {
+        struct Node * n1=head, * n2=head;
+        while (head != NULL)
+        {
+            if (head->next != NULL)
+            {
+                if (head->next->value >=0 && head->next->value%2 == 0)
+                {
+                        n1 = head; n2 = head->next;
+                        n1->next = p;
+                        p->next = n2;
+                        break;
+                }
+            }
+            if (head->next == NULL)
+            {
+                if (head->value >=0 && head->value %2 == 0)
+                {
+                    p->next = head;
+                    newhead = p;
+                    break;
+                }
+                else
+                {
+                    head->next = p;
+                    break;
+                }
+            }
+            head = head->next;
+        }
+    }
+   
+    return newhead;
+}
+
+void show (struct Node * p)
+{
+    while (p != NULL)
+    {
+        printf (" %d ", p->value);
+        p = p->next;
+    }
+}
+
+
+int main() {
+    // Write C code here
+   
+    int n = 0, i=0;
+    struct Node *head, *p;
+   
+    while (1)
+    {
+        scanf ("%d", &n);
+        if (n == -99) {break;}
+       
+        p = (struct Node *) malloc (sizeof (struct Node));
+        p->value = n;
+        p->next = NULL;
+       
+        if (i == 0)
+        {
+            head = p;
+            i++;
+        }
+        else
+        {
+            head = insert (head, p);
+            show (head);
+        }
+    }
+   
+
+    return 0;
+}
+
+Add class comment…
+
+Assignment: "CSE1200-Test1"
+Dr. Manishankar Mondal posted a new assignment: CSE1200-Test1
+Created 31 Jul 202331 Jul 2023 (Edited 14 Aug 2023)
+
+Announcement: 'doubly linked list // Online C compiler…'
+Dr. Manishankar Mondal
+Created 24 Jul 202324 Jul 2023
+doubly linked list
+
+// Online C compiler to run C program online
+#include <stdio.h>
+
+
+struct node
+{
+    int v;
+    struct node * p;
+    struct node * prev;
+};
+
+void printlist (struct node * p)
+{
+    while (p != NULL)
+    {
+        printf (" %d ", p->v);
+        p = p->p;
+    }    
+}
+void printlist2 (struct node * last)
+{
+    while ( last != NULL)
+    {
+        printf (" %d ", last->v);
+        last = last->prev;
+    }
+}
+
+struct node* updatelist (struct node * last, struct node * newnode)
+{
+    last->p = newnode;
+    last = newnode;
+   
+    return last;
+}
+
+
+int main() {
+    // Write C code here
+   
+    struct node * n1, *n2, *n3, *n4, *head, *p, *end, *middle;
+    int v, i=0;
+    n1 = (struct node *) malloc (sizeof (struct node));
+   
+   
+    while (1)
+    {
+        printf ("v = ");
+        scanf ("%d", &v);
+        if (v < 0) { break; }
+       
+        p = (struct node *) malloc (sizeof (struct node));
+        p->v = v;
+        p->p = NULL;
+        p->prev = NULL;
+       
+        if (i == 0)
+        {
+            head = p;
+            end = p;
+        }
+        else
+        {
+            //end = updatelist (end, p);
+            end->p = p;
+            p->prev = end;
+            end = p;
+            if (i == 3) {middle = p;}
+        }
+        i++;
+    }
+   
+     printlist2 (middle);
+     printf ("\n");
+     printlist (middle);
+     
+   
+   
+   
+
+    return 0;
+}
